@@ -55,7 +55,7 @@ class ChatangoGroup:
         self.group_name = group_name
         self.username = username.lower()
         self.password = password
-        self.uid = uid
+        self.uid = uid # ?
         self.server_num = getServer(group_name)
         self.ws = None
         self.running = False
