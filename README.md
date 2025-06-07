@@ -1,1 +1,2 @@
-# idk
+memperlajari: ceralib, chlib, ch :U 
+
