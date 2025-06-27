@@ -1,15 +1,4 @@
-# MyAnimeList API
-
-## Endpoint: `/mal`
-
-**Method:** `GET`
-
-**Query Parameters:**
-
-- `data`: Required — `anime`, `manga`, or `character`
-- `query`: Required — Search keyword (e.g. "naruto")
-- `character`: Optional — Index of character result (default is 1)
-
----
-
-### Example (Anime):
+anime: GET /mal?data=anime&query=naruto  
+manga: GET /mal?data=manga&query=one%20piece  
+character: GET /mal?data=character&query=luffy&character=1  
+docs: GET /docs
