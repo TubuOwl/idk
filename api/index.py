@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from markdown import markdown
+from flask import Markup
 import requests
 import re
 import html
@@ -18,12 +20,38 @@ def get_html(url):
 @app.route("/")
 def home():
     return jsonify({"message": "Welcome to MAL API. Go to /docs for documentation."})
-    
+
 @app.route("/docs")
 def docs():
     try:
         with open("docs.md", "r", encoding="utf-8") as f:
-            return f.read(), 200, {"Content-Type": "text/plain"}
+            md_content = f.read()
+        html_content = markdown(md_content)
+        return f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>MyAnimeList API Docs</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    max-width: 800px;
+                    margin: auto;
+                    padding: 2rem;
+                    line-height: 1.6;
+                    background: #fdfdfd;
+                    color: #333;
+                }}
+                code {{ background: #eee; padding: 2px 4px; border-radius: 4px; }}
+                pre {{ background: #eee; padding: 10px; border-radius: 5px; overflow-x: auto; }}
+                h1, h2, h3 {{ border-bottom: 1px solid #ccc; padding-bottom: .3em; }}
+            </style>
+        </head>
+        <body>
+            {html_content}
+        </body>
+        </html>
+        """
     except FileNotFoundError:
         return "Documentation not found.", 404
 
