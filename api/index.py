@@ -4,6 +4,7 @@ import requests
 import re
 import html
 from urllib.parse import quote
+from markdown import markdown
 
 app = Flask(__name__)
 CORS(app)
@@ -23,13 +24,75 @@ def home():
 def docs():
     path = os.path.join(os.path.dirname(__file__), "..", "docs.md")
     if not os.path.exists(path):
-        return "Documentation file not found", 404
+        return "Documentation not found", 404
 
     with open(path, "r", encoding="utf-8") as f:
-        md_content = f.read()
-        html_content = markdown(md_content)
+        html_content = markdown(f.read(), extensions=['fenced_code', 'tables'])
 
-    return html_content
+    return f"""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>MyAnimeList API Docs</title>
+        <style>
+            :root {{
+                color-scheme: light dark;
+            }}
+            body {{
+                font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+                background: #f9f9f9;
+                color: #333;
+                margin: auto;
+                max-width: 900px;
+                padding: 2rem;
+                line-height: 1.7;
+            }}
+            h1, h2, h3 {{
+                border-bottom: 1px solid #ddd;
+                padding-bottom: .3rem;
+                margin-top: 2rem;
+            }}
+            code {{
+                background: #eee;
+                padding: 0.2em 0.4em;
+                border-radius: 5px;
+                font-family: monospace;
+            }}
+            pre {{
+                background: #f4f4f4;
+                padding: 1em;
+                border-radius: 8px;
+                overflow-x: auto;
+                font-size: 0.95em;
+            }}
+            table {{
+                border-collapse: collapse;
+                width: 100%;
+                margin: 1em 0;
+            }}
+            th, td {{
+                border: 1px solid #ccc;
+                padding: 10px;
+                text-align: left;
+            }}
+            th {{
+                background-color: #f0f0f0;
+            }}
+            a {{
+                color: #007bff;
+                text-decoration: none;
+            }}
+            a:hover {{
+                text-decoration: underline;
+            }}
+        </style>
+    </head>
+    <body>
+        {html_content}
+    </body>
+    </html>
+    """
 
 @app.route("/mal", methods=["GET"])
 def mal_search():
