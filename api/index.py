@@ -18,12 +18,14 @@ def get_html(url):
 @app.route("/")
 def home():
     return jsonify({"message": "Welcome to MAL API. Go to /docs for documentation."})
-
+    
 @app.route("/docs")
 def docs():
-    path = os.path.join(os.path.dirname(__file__), "..", "docs.md")
-    if not os.path.exists(path):
-        return "Documentation not found", 404
+    try:
+        with open("docs.md", "r", encoding="utf-8") as f:
+            return f.read(), 200, {"Content-Type": "text/plain"}
+    except FileNotFoundError:
+        return "Documentation not found.", 404
 
 @app.route("/mal", methods=["GET"])
 def mal_search():
