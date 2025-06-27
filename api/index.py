@@ -29,57 +29,7 @@ def docs():
         md_content = f.read()
         html_content = markdown(md_content)
 
-    return f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>MyAnimeList API Docs</title>
-        <meta charset="UTF-8">
-        <style>
-            body {{
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: #f9f9f9;
-                color: #333;
-                max-width: 800px;
-                margin: 40px auto;
-                padding: 20px;
-                line-height: 1.7;
-            }}
-            h1, h2, h3 {{
-                border-bottom: 1px solid #ccc;
-                padding-bottom: 5px;
-            }}
-            code {{
-                background-color: #eee;
-                padding: 2px 4px;
-                border-radius: 4px;
-                font-family: Consolas, monospace;
-            }}
-            pre {{
-                background: #eee;
-                padding: 10px;
-                border-radius: 5px;
-                overflow-x: auto;
-            }}
-            table {{
-                border-collapse: collapse;
-                width: 100%;
-            }}
-            th, td {{
-                border: 1px solid #ccc;
-                padding: 8px;
-                text-align: left;
-            }}
-            th {{
-                background-color: #f0f0f0;
-            }}
-        </style>
-    </head>
-    <body>
-        {html_content}
-    </body>
-    </html>
-    """
+    return html_content
 
 @app.route("/mal", methods=["GET"])
 def mal_search():
